@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.task.board.mapper.BoardMapper">
+    <insert id="insertBoard" parameterType="Board">
+        INSERT INTO board (
+            user_name,
+            title,
+            content,
+            reg_date
+        ) values (
+            #{userName},
+            #{title},
+            #{content},
+            NOW()
+        )
+    </insert>
+    <update id="updateBoard" parameterType="Board">
+        UPDATE board SET
+            title   =   #{title},
+            content =   #{content},
+            update_date = NOW()
+
+        WHERE no = #{no}
+    </update>
+    <select id="selectBoard" parameterType="int" resultType="Board">
+        SELECT *
+        FROM board
+        WHERE no = #{no}
+    </select>
+    <select id="selectBoardList" resultType="Board">
+        SELECT *
+        FROM board
+    </select>
+</mapper>
