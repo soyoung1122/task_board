@@ -4,25 +4,41 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.task.board.mapper.BoardMapper">
-    <insert id="insertBoard" parameterType="Board">
+    <insert id="insertBoard" parameterType="Board" useGeneratedKeys="true" keyProperty="no">
         INSERT INTO board (
             user_name,
             title,
             content,
             reg_date
         ) values (
-            #{userName},
+            #{user_name},
             #{title},
             #{content},
             NOW()
         )
     </insert>
+    <insert id="insertFile" parameterType="AttachedFile">
+        INSERT INTO file (
+            board_no,
+            file_name,
+            file_path,
+            file_type,
+            file_size,
+            file_date
+        ) values (
+            #{board_no},
+            #{file_name},
+            #{file_path},
+            #{file_type},
+            #{file_size},
+            #{file_date}
+        )
+    </insert>
     <update id="updateBoard" parameterType="Board">
         UPDATE board SET
-            title   =   #{title},
-            content =   #{content},
+            title = #{title},
+            content = #{content},
             update_date = NOW()
-
         WHERE no = #{no}
     </update>
     <select id="selectBoard" parameterType="int" resultType="Board">
@@ -30,8 +46,22 @@
         FROM board
         WHERE no = #{no}
     </select>
-    <select id="selectBoardList" resultType="Board">
+    <select id="selectFile" parameterType="int" resultType="AttachedFile">
         SELECT *
+        FROM file
+        WHERE board_no = #{no}
+    </select>
+    <select id="selectBoardList" parameterType="PageDTO" resultType="Board">
+        SELECT
+            (SELECT @rownum := @rownum+1) as rownumber,
+            board.*
+        FROM board, (SELECT @rownum := 0) R
+        ORDER BY reg_date DESC
+        LIMIT #{pagination.limitStart}, #{countList}
+    </select>
+
+    <select id="count" parameterType="PageDTO" resultType="Integer">
+        SELECT COUNT(*)
         FROM board
     </select>
 </mapper>
