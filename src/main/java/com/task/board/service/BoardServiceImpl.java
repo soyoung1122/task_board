@@ -28,7 +28,7 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public Board getBoard(int no) {
         Board board = boardMapper.selectBoard(no);
-        board.setFile(boardMapper.selectFile(no));
+        board.setFile(boardMapper.selectFile(board.getNo()));
         return board;
     }
 

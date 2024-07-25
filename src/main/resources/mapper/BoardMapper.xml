@@ -41,13 +41,20 @@
             update_date = NOW()
         WHERE no = #{no}
     </update>
-    <select id="selectBoard" parameterType="int" resultType="Board">
+    <select id="selectBoard" parameterType="Integer" resultType="Board">
         SELECT *
         FROM board
         WHERE no = #{no}
     </select>
-    <select id="selectFile" parameterType="int" resultType="AttachedFile">
-        SELECT *
+    <select id="selectFile" parameterType="Integer" resultType="AttachedFile">
+        SELECT
+            no,
+            board_no,
+            file_name,
+            file_path,
+            file_type,
+            file_size,
+            file_date
         FROM file
         WHERE board_no = #{no}
     </select>
