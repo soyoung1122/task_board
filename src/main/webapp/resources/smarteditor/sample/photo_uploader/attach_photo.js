@@ -332,6 +332,7 @@
      */
     function html5Upload() {
 		console.log("1");
+		console.log("SDFSDF");
     	var tempFile,
     		sUploadURL;
     	
@@ -501,10 +502,12 @@
  		    		goReadyMode();
  		    		oFileUploader.reset();
  		    	}
+				 console.log("SDFsdf");
 // 	    		bAllowed 값이 false인 경우 경고문구와 함께 alert 수행 
 // 	    		oCustomEvent.stop(); 수행시 bAllowed 가 false이더라도 alert이 수행되지 않음
  	    	},
  	    	success : function(oCustomEvent) {
+				 console.log("SSSSD$R@#$");
  	    		// alert("success");
  	    		// 업로드가 성공적으로 완료되었을 때 발생
  	    		// oCustomEvent(이벤트 객체) = {
@@ -512,13 +515,16 @@
  	    		// }
  	    		var aResult = []; 
  	    		aResult[0] = oCustomEvent.htResult;
- 	    		setPhotoToEditor(aResult); 
+ 	    		setPhotoToEditor(aResult);
+
+				 console.log(aResult);
  	    		//버튼 비활성화
  	    		goReadyMode();
  	    		oFileUploader.reset();
  	    		window.close();
  	    	},
  	    	error : function(oCustomEvent) {
+				 console.log("SSSSSS");
  	    		//업로드가 실패했을 때 발생
  	    		//oCustomEvent(이벤트 객체) = {
  	    		//	htResult : { (Object) 서버에서 전달해주는 결과 객체. 에러발생시 errstr 프로퍼티를 반드시 포함하도록 서버 응답을 설정하여야한다.

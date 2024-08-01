@@ -23,6 +23,7 @@
     <div id="data_content"></div>
 
     <button type="button" onclick="location.href='/board/update/${board.no}'">수정하기</button>
+    <button type="button" onclick="location.href='/board'">목록</button>
 <script>
     $(document.body).ready(function() {
         createElementFromString();

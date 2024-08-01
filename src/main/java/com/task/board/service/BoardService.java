@@ -23,5 +23,6 @@ public interface BoardService {
     public int getCount(PageDTO pageDTO);
     public void uploadImage(HttpServletRequest request, HttpServletResponse response) throws IOException;
     public void uploadFile(int no, MultipartFile file) throws IOException;
+    public void deleteFile(int no);
     public Map<String, Object> downloadFile(int no) throws MalformedURLException;
 }

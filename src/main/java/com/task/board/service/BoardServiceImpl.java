@@ -151,6 +151,27 @@ public class BoardServiceImpl implements BoardService {
         }
     }
 
+    @Override
+    public void deleteFile(int no) {
+        AttachedFile deleteFile = boardMapper.selectFile(no);
+
+        if(deleteFile == null) return;
+
+        boardMapper.deleteFile(deleteFile.getBoard_no());
+
+        File file = new File(deleteFile.getFile_path());
+
+        if( file.exists() ){
+            if(file.delete()){
+                System.out.println("파일삭제 성공");
+            }else{
+                System.out.println("파일삭제 실패");
+            }
+        }else{
+            System.out.println("파일이 존재하지 않습니다.");
+        }
+    }
+
 
     @Override
     public Map<String, Object> downloadFile(int no) throws MalformedURLException {

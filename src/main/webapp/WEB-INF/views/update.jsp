@@ -27,8 +27,11 @@
         <label for="file">첨부파일 : </label>
         <input type="file" id="file" name="file">
         <c:if test="${board.file.file_name != null}">
-            ${board.file.file_name}<button>삭제</button>
+            ${board.file.file_name}
+            <button type="button" onclick="setFileStatus(this)">삭제</button>
         </c:if>
+        <input hidden="hidden" id="deleteStatus">
+
         <textarea
                 name="editor"
                 id="editor"
@@ -44,6 +47,7 @@
     <button type="button" onclick="location.href='/board/${board.no}'">취소</button>
 
     <script>
+        let deleteStatus = false;
         $(document).ready(function () {
             smartEditor();
         });
@@ -57,6 +61,16 @@
                 fCreator: "createSEditor2"
             })
         }
+
+        const setFileStatus = function(btn) {
+            deleteStatus = !deleteStatus;
+            if(deleteStatus) {
+                $(btn).html("취소");
+            } else {
+                $(btn).html("삭제");
+            }
+        }
+
         const updateBoard = function() {
             oEditors.getById["editor"].exec("UPDATE_CONTENTS_FIELD", [])
             let content = document.getElementById("editor").value;
@@ -74,14 +88,49 @@
                 data: param,
                 contentType : "application/json",
                 success: function () {
+                    let data = $("input[name='file']");
+                    let file = data[0].files;
+
+                    if(file.length > 0) {
+                        updateFile("${board.no}", file[0]);
+                    } else {
+                        if(deleteStatus) {
+                            deleteFile("${board.no}");
+                        }
+                    }
+
                     alert("게시글이 수정되었습니다.");
                     location.href="/board/${board.no}";
                 }
             })
         }
 
-        const updateFile = function() {
+        const updateFile = function(no, file) {
+            let formData = new FormData();
+            formData.append("updateFile", file);
 
+            $.ajax({
+                url: "/board/update/" + no + "/file",
+                type: "PUT",
+                data: formData,
+                async: true,
+                contentType: false,
+                processData: false
+            })
+        }
+
+        const deleteFile = function(no) {
+            $.ajax({
+                url: "/board/delete/" + no + "/file",
+                type: "DELETE",
+                async: true,
+                contentType: false,
+                processData: false,
+                success: function() {
+                    console.log("삭제 완료");
+                    location.href="/board";
+                }
+            })
         }
     </script>
 </body>

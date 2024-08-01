@@ -1,5 +1,6 @@
 package com.task.board.controller;
 
+import com.task.board.model.AttachedFile;
 import com.task.board.model.Board;
 import com.task.board.model.PageDTO;
 import com.task.board.service.BoardService;
@@ -90,7 +91,16 @@ public class BoardController {
     @PostMapping("/upload/img")
     public void uploadImg(HttpServletRequest request, HttpServletResponse response) throws IOException {
        boardService.uploadImage(request, response);
-}
+    }
 
+    @PutMapping("/update/{no}/file")
+    public void updateFile(HttpServletRequest request, @PathVariable int no, @RequestBody @RequestParam("updateFile") MultipartFile file) throws IOException {
+        boardService.deleteFile(no);
+        boardService.uploadFile(no, file);
+    }
 
+    @DeleteMapping("/delete/{no}/file")
+    public void deleteFile(HttpServletRequest request, @PathVariable("no") int no) {
+        boardService.deleteFile(no);
+    }
 }

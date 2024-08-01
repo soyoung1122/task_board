@@ -14,6 +14,7 @@ public interface BoardMapper {
     public List<Board> selectBoardList(PageDTO params);
     public void insertBoard(Board board);
     public void insertFile(AttachedFile file);
+    public void deleteFile(int no);
     public void updateBoard(Board board);
     public int count(PageDTO params);
 }
